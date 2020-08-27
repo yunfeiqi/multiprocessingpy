@@ -1,0 +1,14 @@
+venv/*
+*.pyc
+!.gitignore
+.git/*
+.idea
+__pycache__
+.pytest_cache
+.ipynb_checkpoints
+outputs
+nohup.out
+notebooks/*
+core
+*.txt
+.vscode
