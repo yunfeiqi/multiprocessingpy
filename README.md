@@ -8,7 +8,7 @@ Processor: 处理型算子一般处于中间操作
 Dump ： 输出型算子，一般对操作结果持久化
 
 使用流程
-1. 自定义个自己个 Datasource，Processor，Dump算子
+1. 定义自己的Datasource，Processor，Dump算子
 2. 自定义Workflow对象，该对象是整个工作流的宏观组织对象
 3. 执行Workflow 的start方法
 
