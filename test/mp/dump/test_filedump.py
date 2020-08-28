@@ -16,7 +16,7 @@ from test.mp.mpTest import BaseTest
 class Test_FileDump(BaseTest):
     def test_work(self):
         queue = create_queue_list(1, 10)
-        dump = FileDump(queue[0], "test.txt")
+        dump = FileDump("test.txt")
         for i in range(5):
             queue[0].put(i)
 

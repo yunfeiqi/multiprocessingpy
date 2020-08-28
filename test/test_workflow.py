@@ -7,21 +7,44 @@
 @Version        :1.0
 '''
 
-from test.mp.mpTest import BaseTest
+from mp.datasource.filedatasource import FileDatasource
+from mp.processor.processor import Processor
+from mp.dump.filedump import FileDump
+
 from workflow import Workflow
+from test.mp.mpTest import BaseTest
+
 import traceback
 
 
-class Test_Workflow(BaseTest):
-    def test_queues_constract_mapping_Error(self):
-        wf = Workflow()
-        self.assertRaises(RuntimeError, wf.queues_constract_mapping, 4, 3)
+class MyProcessor(Processor):
+    def work(self):
+        while True:
+            data = self.input_queue.get()
+            self.output_queue.put(data)
 
-    def test_queues_constract_mapping(self):
-        wf = Workflow()
-        mapping = wf.queues_constract_mapping(4, 5)
-        right_ids = list(range(5))
-        mapping_ids = list(range(5))
-        mapping_ids[4] = 0
-        target = list(zip(right_ids, mapping_ids))
-        self.assertEqual(mapping, target)
+class MyWorkflow(Workflow):
+    def __init__(self):
+        super().__init__()
+        
+        # datasrouce 
+        ds = FileDatasource("test/test.csv",",",10)
+        dss = [ds]
+
+        # processor 
+        processors = [MyProcessor() for i in range(3)]
+
+        # dump
+        dumps = [FileDump("test.csv")]
+
+        self.hash_relation(dss,processors)
+        self.hash_relation(processors,dumps)
+
+
+
+
+class Test_Workflow(BaseTest):
+    
+    def test_work(self):
+        m_wf  = MyWorkflow()
+        m_wf.start()
