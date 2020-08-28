@@ -10,6 +10,7 @@
 from mp.datasource.filedatasource import FileDatasource
 from mp.processor.processor import Processor
 from mp.dump.filedump import FileDump
+from mp.utils.filtutils import remove_file
 
 from workflow import Workflow
 from test.mp.mpTest import BaseTest
@@ -50,4 +51,6 @@ class Test_Workflow(BaseTest):
     def test_work(self):
         m_wf  = MyWorkflow()
         m_wf.start()
+        remove_file("test.csv")
+        
         
