@@ -7,13 +7,17 @@
 @Version        :1.0
 '''
 
-import threading
+from multiprocessing import Process
 
+class Operator(Process):
 
-class Operator(threading.Thread):
     def __init__(self):
+        super().__init__()
         self.input_queue = None
         self.output_queue = None
+        self.daemon = True
+        # 设置后继个数
+        self.tail_num = 1
 
     def get_input_queue(self):
         return self.input_queue
@@ -27,6 +31,9 @@ class Operator(threading.Thread):
     def set_output_queue(self, queue):
         self.output_queue = queue
 
+    def set_tail_num(self,n):
+        self.tail_num = n 
+
     def work(self, **params):
         raise
 
@@ -35,5 +42,20 @@ class Operator(threading.Thread):
             raise RuntimeError("The function send_msg error: queue is None")
         queue.put(msg)
 
+    def done(self):
+        if self.output_queue is not None:
+            for i in range(self.tail_num):
+                self.output_queue.put(None)
+
+
+    def pre_processing(self):
+        pass
+        
+    def post_processing(self):
+        pass
+
     def run(self):
+        self.pre_processing()
         self.work()
+        self.post_processing()
+        self.done()

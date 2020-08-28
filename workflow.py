@@ -16,7 +16,7 @@ class Workflow(Net):
 
     
     def check_net(self):
-        return len(self.layes) <=0
+        return len(self.layes) > 0
 
 
     def start(self):

@@ -7,34 +7,52 @@
 
 from mp.operator import Operator
 from mp.utils.queueutil import create_queue_list
+import math
 
 class Net(object):
     def __init__(self):
         super().__init__()
         self.layes = []
+        self.relations = []
+
+    def reserve(self,left,right,mapping):
+        # reserve structure of net
+
+        # only first
+        if len(self.layes) <=0:
+            self.layes.append(left)
+        self.layes.append(right)
+
+        # reserve relations 
+        self.relations.append(mapping)
+        
+    def display_net(self):
+        for mapping in self.relations:
+            print(mapping)
 
     def hash_relation(self,left: list, right: list,capacity=50):
         left_cnt = len(left)
         right_cnt = len(right)
-        if left_cnt > right_cnt:
-            raise RuntimeError("The size of left cant't greater than right side to hash relation")
 
-        # mapping
-        right_ids = range(right_cnt)
-        mappint_id = [r_id % left_cnt for r_id in right_ids]
+        queue_cnt = min(left_cnt,right_cnt)
+        queues = create_queue_list(left_cnt,capacity)
 
-        queues = create_queue_list(left_cnt)
+        # mapping 
+        left_mapping = [id % queue_cnt for id in range(left_cnt)]
+        right_mapping = [id % queue_cnt for id in range(right_cnt)]
 
         # set left side queue
         for id,ope in enumerate(left):
-            ope.set_output_queue(queues[id])
+            q_id = left_mapping[id]
+            queue = queues[q_id]
+            ope.set_output_queue(queue)
+            ope.set_tail_num(right_cnt)
 
         # set right side queue
         for id,ope in enumerate(right):
-            m_left_id = mappint_id[id]
-            ope.set_input_queue(queues[m_left_id])
+            q_id = right_mapping[id]
+            queue = queues[q_id]
+            ope.set_input_queue(queue)
 
-        # reserve structure of net
-        self.layes.append(left)
-        self.layes.append(right)
+        self.reserve(left,right,left_mapping)
 

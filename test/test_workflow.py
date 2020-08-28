@@ -15,20 +15,24 @@ from workflow import Workflow
 from test.mp.mpTest import BaseTest
 
 import traceback
+import time
 
 
 class MyProcessor(Processor):
     def work(self):
         while True:
             data = self.input_queue.get()
+            if data is None:
+                break
             self.output_queue.put(data)
+
 
 class MyWorkflow(Workflow):
     def __init__(self):
         super().__init__()
         
         # datasrouce 
-        ds = FileDatasource("test/test.csv",",",10)
+        ds = FileDatasource("test/test.csv",",",1)
         dss = [ds]
 
         # processor 
@@ -41,10 +45,9 @@ class MyWorkflow(Workflow):
         self.hash_relation(processors,dumps)
 
 
-
-
 class Test_Workflow(BaseTest):
     
     def test_work(self):
         m_wf  = MyWorkflow()
         m_wf.start()
+        

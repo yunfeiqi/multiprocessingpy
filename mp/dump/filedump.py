@@ -12,6 +12,7 @@ from mp.dump.dump import Dump
 
 class FileDump(Dump):
     def __init__(self, filepath):
+        super().__init__()
         self.filepath = filepath
 
     def work(self):

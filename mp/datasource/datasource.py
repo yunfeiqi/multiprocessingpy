@@ -19,5 +19,8 @@ class Datasource(Operator):
     @Return         :
     '''
 
+    def post_processing(self):
+        print("{} Datasource Finished".format(self.name))
+
     def work(self):
         pass

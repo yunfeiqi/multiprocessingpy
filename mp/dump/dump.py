@@ -12,5 +12,8 @@ from mp.operator import Operator
 
 class Dump(Operator):
 
+    def post_processing(self):
+        print("{} Dump Finished".format(self.name))
+
     def work(self):
         raise NotImplementedError("")

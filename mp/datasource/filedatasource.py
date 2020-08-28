@@ -36,5 +36,3 @@ class FileDatasource(Datasource):
         for i, chunk in enumerate(tqdm(reader, "FileDatasource Reader")):
             self.send_msg(self.get_output_queue(), chunk)
 
-        # done
-        self.send_msg(self.get_output_queue(), None)

@@ -12,6 +12,9 @@ from mp.operator import Operator
 
 class Processor(Operator):
 
+    def post_processing(self):
+        print("{} Processor Finished".format(self.name))
+
     def work(self):
         '''
         @Description    :
