@@ -9,7 +9,8 @@
 
 from multiprocessing import Queue
 
-def create_queue_list(n,capacity_q):
+
+def create_queue_list(n, capacity_q):
     '''
     @Description    : To create a set of queue
     @Time    		 :2020/08/27 15:40:19
@@ -19,7 +20,3 @@ def create_queue_list(n,capacity_q):
     '''
     queue = Queue(capacity_q)
     return [queue] * n
-    
-    
-    
-

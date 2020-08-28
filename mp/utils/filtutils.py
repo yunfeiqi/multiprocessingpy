@@ -7,5 +7,17 @@
 @Version        :1.0
 '''
 
+import os
 
 
+def check_exist(path):
+    return os.path.exists(path)
+
+
+def is_file(path):
+    return os.path.isfile(path)
+
+
+def remove_file(path):
+    if check_exist(path) and is_file(path):
+        os.remove(path)
